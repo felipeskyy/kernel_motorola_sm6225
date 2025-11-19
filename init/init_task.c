@@ -12,7 +12,7 @@
 #include <linux/audit.h>
 #include <linux/scs.h>
 
-#include <asm/pgtable.h>
+#include <linux/pgtable.h>
 #include <linux/uaccess.h>
 
 static struct signal_struct init_signals = {
@@ -66,7 +66,7 @@ struct task_struct init_task
 #endif
 	.state		= 0,
 	.stack		= init_stack,
-	.usage		= ATOMIC_INIT(2),
+	.usage		= REFCOUNT_INIT(2),
 	.flags		= PF_KTHREAD,
 	.prio		= MAX_PRIO - 20,
 	.static_prio	= MAX_PRIO - 20,

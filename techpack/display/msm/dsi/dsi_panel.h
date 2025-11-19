@@ -248,9 +248,9 @@ enum hbm_state {
 };
 
 enum cabc_state {
+	CABC_DIS_STATE,
 	CABC_UI_STATE,
 	CABC_MV_STATE,
-	CABC_DIS_STATE,
 	CABC_STATE_NUM,
 };
 
@@ -498,9 +498,9 @@ void dsi_panel_ext_bridge_put(struct dsi_panel *panel);
 void dsi_panel_calc_dsi_transfer_time(struct dsi_host_common_cfg *config,
 		struct dsi_display_mode *mode, u32 frame_threshold_us);
 
+bool dsi_panel_param_is_supported(u32 param_idx);
+
 int dsi_panel_set_param(struct dsi_panel *panel,
 			struct msm_param_info *param_info);
-
-void dsi_panel_reset_param(struct dsi_panel *panel);
 
 #endif /* _DSI_PANEL_H_ */

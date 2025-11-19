@@ -991,7 +991,7 @@ error:
 	return rc;
 }
 
-static bool dsi_panel_param_is_supported(u32 param_idx)
+bool dsi_panel_param_is_supported(u32 param_idx)
 {
 
 	struct panel_param *param = NULL;
@@ -1176,6 +1176,11 @@ static int dsi_panel_send_param_cmd(struct dsi_panel *panel,
 
 	mutex_lock(&panel->panel_lock);
 
+	if (!panel->panel_initialized) {
+		rc = -ENODEV;
+		goto end;
+	}
+
 	if (param_info->value >= panel_param->val_max)
 		param_info->value = panel_param->val_max - 1;
 
@@ -1351,17 +1356,6 @@ int dsi_panel_set_param(struct dsi_panel *panel,
 	}
 
 	return rc;
-}
-
-void dsi_panel_reset_param(struct dsi_panel *panel)
-{
-	struct panel_param *param;
-	int i;
-
-	for (i = 0; i < PARAM_ID_NUM; i++) {
-		param = &dsi_panel_param[0][i];
-		param->value = param->default_value;
-	}
 }
 
 static int dsi_panel_bl_register(struct dsi_panel *panel)

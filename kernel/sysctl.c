@@ -1908,6 +1908,7 @@ static struct ctl_table vm_table[] = {
 		.extra2		= &one_hundred,
 #endif /* CONFIG_OPLUS_MM_HACKS */
 	},
+
 #ifdef CONFIG_OPLUS_MM_HACKS
 	{
 	        .procname	= "direct_swappiness",
@@ -1928,6 +1929,7 @@ static struct ctl_table vm_table[] = {
 		.extra1         = &zero,
 		.extra2         = &one,
 	},
+
 #ifdef CONFIG_HUGETLB_PAGE
 	{
 		.procname	= "nr_hugepages",
