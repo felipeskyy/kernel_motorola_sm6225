@@ -192,9 +192,9 @@ else
 fi
 
 # localversion* files in the build and source directory
-res="$(collect_files localversion*)"
+res="$(collect_files localversion-st)"
 if test ! "$srctree" -ef .; then
-	res="$res$(collect_files "$srctree"/localversion*)"
+	res="$res$(collect_files "$srctree"/localversion-st)"
 fi
 
 # CONFIG_LOCALVERSION and LOCALVERSION (if set)
