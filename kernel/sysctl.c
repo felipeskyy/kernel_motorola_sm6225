@@ -1920,6 +1920,8 @@ static struct ctl_table vm_table[] = {
 		.extra2 	= &two_hundred,
 	},
 #endif /* CONFIG_OPLUS_MM_HACKS */
+
+#ifdef CONFIG_OLD_FAULTAROUND_PTE
 	{
 		.procname       = "want_old_faultaround_pte",
 		.data           = &want_old_faultaround_pte,
@@ -1929,6 +1931,7 @@ static struct ctl_table vm_table[] = {
 		.extra1         = &zero,
 		.extra2         = &one,
 	},
+#endif
 
 #ifdef CONFIG_HUGETLB_PAGE
 	{
