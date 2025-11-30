@@ -21,9 +21,11 @@ struct ion_dma_buf_attachment {
 };
 
 static long ion_ioctl(struct file *filp, unsigned int cmd, unsigned long arg);
+
 static const struct file_operations ion_fops = {
-	.unlocked_ioctl = ion_ioctl,
-	.compat_ioctl = ion_ioctl
+        .owner          = THIS_MODULE,
+        .unlocked_ioctl = ion_ioctl,
+        .compat_ioctl   = compat_ptr_ioctl,
 };
 
 static struct ion_device ion_dev = {
@@ -557,14 +559,6 @@ static int ion_walk_heaps(int heap_id, int type, void *data,
 }
 
 static int ion_query_heaps(struct ion_heap_query *query)
-
-static const struct file_operations ion_fops = {
-	.owner          = THIS_MODULE,
-	.unlocked_ioctl = ion_ioctl,
-	.compat_ioctl	= compat_ptr_ioctl,
-};
-
-static int ion_debug_heap_show(struct seq_file *s, void *unused)
 {
 	struct ion_device *idev = &ion_dev;
 
