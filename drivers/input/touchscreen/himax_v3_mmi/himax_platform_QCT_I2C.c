@@ -986,7 +986,7 @@ static void __exit himax_common_exit(void)
 	i2c_del_driver(&himax_common_driver);
 }
 
-module_init(himax_common_init);
+fs_initcall(himax_common_init);
 module_exit(himax_common_exit);
 
 MODULE_DESCRIPTION("Himax_common driver");
