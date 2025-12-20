@@ -993,7 +993,7 @@ static int __init gf_init(void)
 	pr_info("status = 0x%x\n", status);
 	return 0;
 }
-module_init(gf_init);
+late_initcall(gf_init);
 
 static void __exit gf_exit(void)
 {

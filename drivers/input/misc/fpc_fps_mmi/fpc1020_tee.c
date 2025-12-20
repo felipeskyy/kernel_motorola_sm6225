@@ -662,7 +662,7 @@ static void __exit fpc1020_exit(void)
 	platform_driver_unregister(&fpc1020_driver);
 }
 
-module_init(fpc1020_init);
+late_initcall(fpc1020_init);
 module_exit(fpc1020_exit);
 
 MODULE_LICENSE("GPL v2");
