@@ -1444,7 +1444,7 @@ static void __exit himax_hx83102_exit(void)
 	himax_hx83102_remove();
 }
 
-module_init(himax_hx83102_init);
+late_initcall(himax_hx83102_init);
 module_exit(himax_hx83102_exit);
 
 MODULE_DESCRIPTION("HIMAX HX83102 touch driver");
