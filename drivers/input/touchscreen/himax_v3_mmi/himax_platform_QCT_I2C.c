@@ -897,29 +897,24 @@ int himax_chip_common_probe(struct i2c_client *client, const struct i2c_device_i
 	ret = himax_chip_common_init();
 
 	if (ret < 0) {
-		/* * Patch: Handle built-in compilation dependency issues.
+		/* * Patch: Universal Deferral for Built-in Drivers
 		 *
-		 * When the driver is built-in (=y), probe() might run before
-		 * platform resources (regulators, I2C, GPIOs) or the IC-specific
-		 * driver (himax_ic_*.c) are fully initialized/registered.
+		 * When compiled as built-in, this driver might probe before the
+		 * Display/Video driver has registered the panel. This causes
+		 * himax_chip_common_init() -> check_dt() to fail because it
+		 * can't find the active panel string yet.
 		 *
-		 * Instead of failing permanently with "no entry exist", we return
-		 * -EPROBE_DEFER. This tells the kernel to put this driver in a
-		 * wait queue and retry the probe later (e.g., after late_initcall),
-		 * ensuring all dependencies are met without changing init levels.
+		 * Instead of checking for specific error codes, we defer on ANY
+		 * failure. This forces the kernel to keep retrying until the
+		 * display driver is ready and check_dt() succeeds.
 		 */
-		if (ret == -22 || ret == -19 || ret == -1 || ret == -ENODEV) {
-			pr_info("[HXTP] Deferring probe: power or chip not ready yet (ret=%d)\n", ret);
+		pr_info("[HXTP] Init failed (ret=%d), deferring probe to wait for resources/display...\n", ret);
 
-			/* Important: Free memory to avoid leak before deferring */
-			kfree(ts);
-			private_ts = NULL;
+		/* Important: Free memory to avoid leaks before deferring */
+		kfree(ts);
+		private_ts = NULL;
 
-			return -EPROBE_DEFER;
-		}
-
-		/* If it's a fatal error not related to init order, fall through */
-		goto err_check_functionality_failed;
+		return -EPROBE_DEFER;
 	}
 
 err_alloc_data_failed:
